@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SnapLex — แค่ถ่าย...ก็ได้คำศัพท์ระดับสูง</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700;800&display=swap">
+<style>
+*{box-sizing:border-box;margin:0}
+:root{--bg:#FBF5E6;--cd:#fff;--ink:#1E2A5E;--mu:#6B7196;--lv:#DAD5F8;--lv2:#9A90E8;--ok:#2F9E77;--no:#D9534F;--ln:#E7E0CC;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141B3D;--cd:#1F2856;--ink:#F5EFDD;--mu:#A5A9CC;--lv:#2E3874;--lv2:#B9B2F0;--ln:#2E3874}}
+:root[data-theme="dark"]{--bg:#141B3D;--cd:#1F2856;--ink:#F5EFDD;--mu:#A5A9CC;--lv:#2E3874;--lv2:#B9B2F0;--ln:#2E3874}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:var(--bg);color:var(--ink);font:400 15px/1.5 Prompt,'Noto Sans Thai',system-ui,sans-serif}
+#app{max-width:480px;margin:auto;padding:16px 16px 120px}
+button{font:inherit}button:focus-visible,textarea:focus-visible{outline:3px solid var(--lv2);outline-offset:2px}
+.card{background:var(--cd);border:1px solid var(--ln);border-radius:22px;padding:16px;margin:12px 0}
+.btn{display:block;width:100%;border:0;border-radius:16px;padding:14px;font-weight:600;cursor:pointer;background:var(--ink);color:var(--bg);margin:10px 0}
+.btn.big{padding:18px;font-size:17px;border-radius:20px}.ghost{background:var(--lv);color:var(--ink)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid2 .btn{margin:6px 0}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.brand{display:flex;align-items:center;gap:10px}.brand h1{font-size:38px;font-weight:800;letter-spacing:-.03em}
+.l1{fill:var(--lv2)}.l2{fill:var(--ink)}.l3{fill:var(--bg)}
+.tag{color:var(--mu);margin:2px 0 14px}.mu{color:var(--mu)}h3{margin:18px 0 4px}
+.pb{height:10px;border-radius:9px;background:var(--lv);margin:10px 0;overflow:hidden}.pb i{display:block;height:100%;background:var(--ink);border-radius:9px}
+.badge{display:inline-block;background:var(--lv);border-radius:99px;padding:2px 10px;font-size:12px;font-weight:600}
+.mini{display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.ex{background:var(--lv);border-radius:14px;padding:10px 12px;margin:8px 0}
+.wd{font-size:32px;font-weight:700;letter-spacing:-.02em}
+.ic{background:var(--lv);color:var(--ink);border:0;border-radius:99px;padding:6px 12px;cursor:pointer}
+.bar{display:flex;align-items:center;gap:10px;margin:4px 0 8px}.bar h2{font-size:20px}
+.prev{height:200px;border-radius:24px;background:var(--lv);display:grid;place-items:center;overflow:hidden;margin:8px 0}.prev img{width:100%;height:100%;object-fit:cover}.em{font-size:72px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}.chip{border:1px solid var(--ln);background:var(--cd);color:var(--ink);border-radius:99px;padding:8px 14px;cursor:pointer}
+.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.vh{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;clip:rect(0 0 0 0);pointer-events:none}
+label.btn{text-align:center}
+.thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px}.th{border:2px solid transparent;background:var(--cd);border-radius:14px;padding:0;overflow:hidden;cursor:pointer;color:var(--ink);text-align:center}.th svg{display:block;width:100%;aspect-ratio:4/3}.th span{display:block;font-size:11px;padding:4px 2px;line-height:1.2}.th.on{border-color:var(--ink)}.prev svg{width:100%;height:100%}
+.ld{text-align:center;padding:90px 0}.spin{width:56px;height:56px;border-radius:50%;border:6px solid var(--lv);border-top-color:var(--ink);margin:0 auto 20px;animation:sp 1s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
+.fc{min-height:250px;display:grid;place-content:center;text-align:center;gap:8px;cursor:pointer;background:var(--lv)}
+.opt{display:block;width:100%;text-align:left;border:1px solid var(--ln);background:var(--cd);color:var(--ink);border-radius:16px;padding:13px 14px;margin:8px 0;cursor:pointer}
+.opt.ok{background:var(--ok);color:#fff;border-color:var(--ok)}.opt.no{background:var(--no);color:#fff;border-color:var(--no)}
+textarea{width:100%;border-radius:14px;border:1px solid var(--ln);padding:10px;font:inherit;background:var(--bg);color:var(--ink);margin-bottom:8px}
+.av{width:48px;height:48px;border-radius:50%;background:var(--lv);display:grid;place-items:center;font-weight:700;margin-right:12px}
+.big2{font-size:28px;font-weight:700}
+.ch{display:flex;align-items:flex-end;gap:8px;height:140px;margin-top:10px}.col{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px;font-size:12px}.col i{width:100%;background:var(--ink);border-radius:8px 8px 4px 4px;min-height:3px}
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;display:flex;background:var(--cd);border-top:1px solid var(--ln);border-radius:24px 24px 0 0;padding:8px 4px calc(8px + env(safe-area-inset-bottom,0px))}
+nav button{flex:1;border:0;background:none;color:var(--mu);font-size:11px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer}
+nav .on{color:var(--ink);font-weight:700}nav span{font-size:20px}
+nav .cam span{background:var(--ink);border-radius:50%;width:50px;height:50px;display:grid;place-items:center;margin-top:-26px;font-size:22px}
+@media(prefers-reduced-motion:reduce){.spin{animation:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<filter id="bk" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="1.8"/></filter>
+<filter id="ob" x="-8%" y="-8%" width="120%" height="125%"><feGaussianBlur in="SourceAlpha" stdDeviation="1.6" result="b"/><feSpecularLighting in="b" surfaceScale="3" specularConstant=".7" specularExponent="18" lighting-color="#fff" result="s"><feDistantLight azimuth="235" elevation="55"/></feSpecularLighting><feComposite in="s" in2="SourceAlpha" operator="in" result="s2"/><feComposite in="SourceGraphic" in2="s2" operator="arithmetic" k1="0" k2="1" k3=".55" k4="0" result="lit"/><feDropShadow in="lit" dx="1.2" dy="2.6" stdDeviation="2" flood-color="#000" flood-opacity=".35"/></filter>
+<linearGradient id="gd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity=".28"/><stop offset=".5" stop-color="#000" stop-opacity=".05"/><stop offset="1" stop-color="#000" stop-opacity=".22"/></linearGradient>
+<linearGradient id="gl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".6" stop-color="#888"/><stop offset="1" stop-color="#000" stop-opacity=".7"/></linearGradient>
+<radialGradient id="vg" cx=".5" cy=".5" r=".75"><stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".4"/></radialGradient>
+<filter id="gr" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
+</defs></svg>
+<div id="app"></div><nav id="nav"></nav>
+<input type="file" id="f1" accept="image/*" capture="environment" class="vh" onchange="file(this)">
+<input type="file" id="f2" accept="image/*" class="vh" onchange="file(this)">
+<script>
+const $=s=>document.getElementById(s),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuf=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const SC=[{n:'โต๊ะอ่านหนังสือ',e:'📚',c:'การเรียน'},{n:'กาแฟยามเช้า',e:'☕',c:'อาหารและเครื่องดื่ม'},{n:'ธรรมชาติ',e:'🌿',c:'ธรรมชาติ'},{n:'รถไฟฟ้ายามเร่งด่วน',e:'🚇',c:'การเดินทางและเมือง'},{n:'ตลาดอาหารริมทาง',e:'🍜',c:'อาหารและเครื่องดื่ม'},{n:'โต๊ะทำงาน',e:'💻',c:'การทำงานและเทคโนโลยี'},{n:'ฟิตเนส',e:'🏃',c:'บ้านและสุขภาพ'},{n:'ห้องนั่งเล่น',e:'🛋️',c:'บ้านและสุขภาพ'},{n:'ฝนตกหนัก',e:'🌧️',c:'ธรรมชาติ'},{n:'สมาร์ตโฟน',e:'📱',c:'การทำงานและเทคโนโลยี'},{n:'ห้างสรรพสินค้า',e:'🛒',c:'ช้อปปิ้งและการเงิน'},{n:'ธนาคารและการออมเงิน',e:'💰',c:'ช้อปปิ้งและการเงิน'},{n:'สัตว์เลี้ยง',e:'🐕',c:'ธรรมชาติ'},{n:'ห้องเรียนมหาวิทยาลัย',e:'🎓',c:'การเรียน'},{n:'โรงพยาบาล',e:'🏥',c:'บ้านและสุขภาพ'},{n:'วงสังสรรค์เพื่อน',e:'👥',c:'ผู้คนและสังคม'},{n:'คอนเสิร์ต',e:'🎶',c:'ผู้คนและสังคม'},{n:'สนามบิน',e:'✈️',c:'การเดินทางและเมือง'}];
+const W=[
+['contemplation','/ˌkɒntəmˈpleɪʃn/','n.','การไตร่ตรอง, การใคร่ครวญ','reflection, meditation, deliberation','She sat in quiet contemplation before the exam.','เธอนั่งไตร่ตรองอย่างสงบก่อนสอบ'],
+['concentration','/ˌkɒnsnˈtreɪʃn/','n.','สมาธิ, การจดจ่อ','focus, attention, absorption','Loud music breaks my concentration.','เสียงเพลงดังทำให้สมาธิของฉันเสีย'],
+['perseverance','/ˌpɜːsəˈvɪərəns/','n.','ความเพียรพยายาม','persistence, tenacity, determination','Perseverance helped him pass the hardest course.','ความเพียรช่วยให้เขาผ่านวิชาที่ยากที่สุดได้'],
+['savor','/ˈseɪvər/','v.','ละเลียดลิ้มรส, ดื่มด่ำ','relish, enjoy, appreciate','I like to savor my coffee slowly.','ฉันชอบค่อย ๆ ละเลียดกาแฟ'],
+['aroma','/əˈrəʊmə/','n.','กลิ่นหอม','fragrance, scent, bouquet','The aroma of fresh coffee filled the room.','กลิ่นหอมของกาแฟสดอบอวลไปทั้งห้อง'],
+['ambiance','/ˈæmbiəns/','n.','บรรยากาศ','atmosphere, mood, vibe','This café has a warm and cozy ambiance.','คาเฟ่นี้มีบรรยากาศอบอุ่นน่านั่ง'],
+['serene','/səˈriːn/','adj.','เงียบสงบ, ราบเรียบ','tranquil, calm, peaceful','The lake looked serene at dawn.','ทะเลสาบดูเงียบสงบยามรุ่งอรุณ'],
+['foliage','/ˈfəʊliɪdʒ/','n.','พุ่มใบไม้, ใบไม้','leaves, greenery, vegetation','Thick foliage shaded the mountain trail.','พุ่มใบไม้หนาทึบให้ร่มเงาแก่ทางเดินป่า'],
+['resilient','/rɪˈzɪliənt/','adj.','ยืดหยุ่น, ฟื้นตัวเร็ว','tough, adaptable, hardy','Resilient plants survive long droughts.','พืชที่ทนทานอยู่รอดผ่านภัยแล้งยาวนานได้'],
+['commute','/kəˈmjuːt/','v.','เดินทางไปทำงาน/เรียน','travel, journey, shuttle','My daily commute takes an hour.','การเดินทางไปทำงานของฉันใช้เวลาวันละหนึ่งชั่วโมง'],
+['bustling','/ˈbʌslɪŋ/','adj.','จอแจ, คึกคัก','busy, lively, hectic','The bustling station was packed at rush hour.','สถานีที่จอแจแน่นขนัดในชั่วโมงเร่งด่วน'],
+['punctual','/ˈpʌŋktʃuəl/','adj.','ตรงเวลา','prompt, timely, on time','She is always punctual for class.','เธอมาเรียนตรงเวลาเสมอ'],
+['cuisine','/kwɪˈziːn/','n.','อาหารประจำถิ่น, ศิลปะการทำอาหาร','cooking, food, fare','Thai cuisine is famous around the world.','อาหารไทยมีชื่อเสียงไปทั่วโลก'],
+['delectable','/dɪˈlektəbl/','adj.','อร่อยยิ่ง, น่ารับประทาน','delicious, scrumptious, tasty','The delectable mango sticky rice sold out fast.','ข้าวเหนียวมะม่วงรสเลิศขายหมดเร็ว'],
+['vendor','/ˈvendər/','n.','ผู้ขาย, พ่อค้าแม่ค้า','seller, merchant, trader','The vendor greeted every customer with a smile.','แม่ค้าทักทายลูกค้าทุกคนด้วยรอยยิ้ม'],
+['meticulous','/məˈtɪkjələs/','adj.','พิถีพิถัน, ละเอียดรอบคอบ','thorough, careful, precise','He is meticulous about checking every detail.','เขาพิถีพิถันกับการตรวจทุกรายละเอียด'],
+['collaborate','/kəˈlæbəreɪt/','v.','ร่วมมือกัน','cooperate, team up, partner','We collaborate on projects in a shared document.','เราทำงานร่วมกันผ่านเอกสารที่แชร์ร่วมกัน'],
+['productivity','/ˌprɒdʌkˈtɪvəti/','n.','ประสิทธิภาพการทำงาน','efficiency, output, performance','A tidy desk can improve productivity.','โต๊ะที่เป็นระเบียบช่วยเพิ่มประสิทธิภาพการทำงานได้'],
+['endurance','/ɪnˈdjʊərəns/','n.','ความอดทน, ความทนทาน','stamina, staying power, resilience','Running regularly builds endurance.','การวิ่งสม่ำเสมอช่วยสร้างความอดทน'],
+['vigorous','/ˈvɪɡərəs/','adj.','แข็งแรง, ที่ใช้แรงมาก','energetic, strenuous, robust','Vigorous exercise raises your heart rate.','การออกกำลังกายแบบหนักทำให้หัวใจเต้นเร็วขึ้น'],
+['rejuvenate','/rɪˈdʒuːvəneɪt/','v.','ทำให้สดชื่นมีชีวิตชีวา','refresh, revitalize, renew','A short walk can rejuvenate a tired mind.','การเดินเล่นสั้น ๆ ช่วยฟื้นความสดชื่นให้จิตใจที่เหนื่อยล้า'],
+['spacious','/ˈspeɪʃəs/','adj.','กว้างขวาง','roomy, ample, capacious','The living room is spacious and bright.','ห้องนั่งเล่นกว้างขวางและสว่าง'],
+['cluttered','/ˈklʌtərd/','adj.','รกรุงรัง','messy, untidy, disorganized','His cluttered desk was covered in papers.','โต๊ะรก ๆ ของเขามีกระดาษเต็มไปหมด'],
+['renovate','/ˈrenəveɪt/','v.','ปรับปรุง, ซ่อมแซมใหม่','refurbish, restore, remodel','They plan to renovate the old kitchen.','พวกเขาวางแผนจะปรับปรุงครัวเก่า'],
+['torrential','/təˈrenʃl/','adj.','(ฝน) ตกหนักมาก','heavy, intense, pouring','Torrential rain flooded the street.','ฝนที่ตกหนักมากทำให้ถนนน้ำท่วม'],
+['humid','/ˈhjuːmɪd/','adj.','ชื้น, อบอ้าว','damp, muggy, sticky','Bangkok is hot and humid in April.','กรุงเทพฯ ร้อนและอบอ้าวในเดือนเมษายน'],
+['unpredictable','/ˌʌnprɪˈdɪktəbl/','adj.','คาดเดาไม่ได้','erratic, uncertain, variable','The weather is unpredictable this season.','อากาศฤดูนี้คาดเดาไม่ได้'],
+['distraction','/dɪˈstrækʃn/','n.','สิ่งรบกวนสมาธิ','interruption, diversion, disturbance','Notifications are a constant distraction.','การแจ้งเตือนเป็นสิ่งรบกวนสมาธิตลอดเวลา'],
+['addictive','/əˈdɪktɪv/','adj.','ที่ทำให้ติด','habit-forming, compulsive, gripping','Short videos can be highly addictive.','วิดีโอสั้นอาจทำให้ติดได้ง่ายมาก'],
+['ubiquitous','/juːˈbɪkwɪtəs/','adj.','มีอยู่ทุกหนทุกแห่ง','omnipresent, widespread, pervasive','Smartphones are ubiquitous in modern life.','สมาร์ตโฟนมีอยู่ทั่วไปในชีวิตสมัยใหม่'],
+['extravagant','/ɪkˈstrævəɡənt/','adj.','ฟุ่มเฟือย, เกินพอดี','lavish, wasteful, excessive','Buying a new phone every month is extravagant.','การซื้อโทรศัพท์เครื่องใหม่ทุกเดือนเป็นการใช้จ่ายฟุ่มเฟือย'],
+['bargain','/ˈbɑːɡɪn/','n.','ของถูกคุ้มค่า, ข้อตกลงราคา','deal, steal, discount','I found a real bargain at the sale.','ฉันเจอของถูกคุ้มค่ามากในช่วงลดราคา'],
+['impulsive','/ɪmˈpʌlsɪv/','adj.','ทำตามอารมณ์ชั่ววูบ','spontaneous, rash, hasty','Impulsive shopping can empty your wallet.','การช้อปตามอารมณ์อาจทำให้กระเป๋าตังค์ว่างเปล่า'],
+['frugal','/ˈfruːɡl/','adj.','ประหยัด, มัธยัสถ์','thrifty, economical, sparing','She is frugal and saves half her salary.','เธอประหยัดและเก็บเงินครึ่งหนึ่งของเงินเดือน'],
+['invest','/ɪnˈvest/','v.','ลงทุน','fund, finance, put money into','Many students invest small amounts each month.','นักศึกษาหลายคนลงทุนเงินจำนวนน้อยทุกเดือน'],
+['inflation','/ɪnˈfleɪʃn/','n.','เงินเฟ้อ','price rise, devaluation','Inflation makes everyday goods more expensive.','เงินเฟ้อทำให้ของใช้ประจำวันแพงขึ้น'],
+['loyal','/ˈlɔɪəl/','adj.','ซื่อสัตย์, จงรักภักดี','faithful, devoted, steadfast','Dogs are famously loyal companions.','สุนัขขึ้นชื่อว่าเป็นเพื่อนที่ซื่อสัตย์'],
+['domestic','/dəˈmestɪk/','adj.','เลี้ยงในบ้าน, ภายในประเทศ','tame, household, home','Cats are common domestic animals.','แมวเป็นสัตว์เลี้ยงในบ้านที่พบได้ทั่วไป'],
+['adorable','/əˈdɔːrəbl/','adj.','น่ารักน่าเอ็นดู','charming, lovable, cute','The adorable puppy wagged its tail.','ลูกสุนัขน่าเอ็นดูกระดิกหาง'],
+['curriculum','/kəˈrɪkjələm/','n.','หลักสูตร','syllabus, course of study, program','The curriculum includes three science courses.','หลักสูตรนี้มีวิชาวิทยาศาสตร์สามวิชา'],
+['scholarship','/ˈskɒləʃɪp/','n.','ทุนการศึกษา','grant, bursary, fellowship','She won a full scholarship to university.','เธอได้รับทุนเต็มจำนวนเพื่อเรียนมหาวิทยาลัย'],
+['diligent','/ˈdɪlɪdʒənt/','adj.','ขยันขันแข็ง','hardworking, industrious, conscientious','A diligent student reviews notes every day.','นักเรียนที่ขยันทบทวนโน้ตทุกวัน'],
+['symptom','/ˈsɪmptəm/','n.','อาการ (ของโรค)','sign, indication, warning','Fever is a common symptom of the flu.','ไข้เป็นอาการทั่วไปของโรคไข้หวัดใหญ่'],
+['prescription','/prɪˈskrɪpʃn/','n.','ใบสั่งยา','medication order, remedy','The doctor wrote a prescription for antibiotics.','หมอเขียนใบสั่งยาปฏิชีวนะให้'],
+['recover','/rɪˈkʌvər/','v.','ฟื้นตัว, หายป่วย','heal, recuperate, get better','He took a week to recover from the flu.','เขาใช้เวลาหนึ่งสัปดาห์เพื่อหายจากไข้หวัดใหญ่'],
+['gregarious','/ɡrɪˈɡeəriəs/','adj.','ชอบเข้าสังคม','sociable, outgoing, friendly','She is gregarious and loves parties.','เธอชอบเข้าสังคมและรักงานปาร์ตี้'],
+['empathy','/ˈempəθi/','n.','ความเข้าอกเข้าใจ','compassion, understanding, sensitivity','Good friends show empathy when you struggle.','เพื่อนที่ดีแสดงความเข้าใจเมื่อเรามีเรื่องยากลำบาก'],
+['reunion','/riːˈjuːniən/','n.','การพบกันอีกครั้ง, งานคืนสู่เหย้า','gathering, get-together, reconciliation','We had a happy reunion after five years.','เราได้พบกันอีกครั้งอย่างมีความสุขหลังห้าปี'],
+['euphoric','/juːˈfɒrɪk/','adj.','ปีติยินดีสุดขีด','elated, ecstatic, jubilant','The euphoric crowd sang every word.','ฝูงชนที่ปีติยินดีร้องตามทุกคำ'],
+['melody','/ˈmelədi/','n.','ท่วงทำนอง','tune, theme, air','The melody stayed in my head all day.','ท่วงทำนองนั้นติดอยู่ในหัวฉันทั้งวัน'],
+['acoustic','/əˈkuːstɪk/','adj.','อะคูสติก, เกี่ยวกับเสียง','unplugged, natural, non-electric','He played an acoustic guitar at the cafe.','เขาเล่นกีตาร์อะคูสติกที่คาเฟ่'],
+['itinerary','/aɪˈtɪnərəri/','n.','กำหนดการเดินทาง','schedule, route, plan','Our itinerary includes three cities.','กำหนดการเดินทางของเรามีสามเมือง'],
+['departure','/dɪˈpɑːtʃər/','n.','การออกเดินทาง','leaving, exit, takeoff','The departure was delayed by an hour.','การออกเดินทางล่าช้าไปหนึ่งชั่วโมง'],
+['souvenir','/ˌsuːvəˈnɪə/','n.','ของที่ระลึก','keepsake, memento, token','I bought a souvenir for my mother.','ฉันซื้อของที่ระลึกให้แม่']
+].map((a,i)=>({w:a[0],p:a[1],t:a[2],m:a[3],s:a[4],e:a[5],x:a[6],c:SC[i/3|0].c,sc:i/3|0}));
+SC.forEach((s,k)=>s.w=[3*k,3*k+1,3*k+2]);
+const LT=['ทุกระดับ','ขั้นต้น B2','ขั้นกลาง C1','ขั้นสูง C1+'],L=[3,2,2,2,1,2,2,2,3,1,2,1,2,3,1,3,2,2,1,2,3,1,2,2,2,1,3,2,2,3,3,1,3,2,1,2,1,1,1,2,2,2,1,2,1,3,2,1,3,1,2,1,1,1];W.forEach((w,i)=>w.l=L[i]);
+const G=(a,b,c)=>'<rect x="-10" y="-10" width="180" height="140" fill="'+a+'" filter="url(#bk)"/>'+(b?'<rect x="-10" y="84" width="180" height="46" fill="'+b+'" filter="url(#bk)"/><rect x="-10" y="84" width="180" height="46" fill="url(#gd)"/>':'')+'<g filter="url(#ob)">'+c+'</g>';
+const svg=i=>'<svg viewBox="0 0 160 120" preserveAspectRatio="xMidYMid slice" role="img" aria-label="'+SC[i].n+'">'+SC[i].g+'<rect width="160" height="120" fill="url(#gl)" style="mix-blend-mode:soft-light"/><rect width="160" height="120" fill="url(#vg)"/><rect width="160" height="120" filter="url(#gr)" opacity=".16" style="mix-blend-mode:overlay"/></svg>';
+[G('#F6E7C8','#B98558','<rect x="22" y="72" width="44" height="12" fill="#1E2A5E"/><rect x="26" y="62" width="38" height="10" fill="#9A90E8"/><rect x="72" y="70" width="36" height="14" fill="#fff"/><path d="M90 70v14" stroke="#ccc"/><path d="M122 84V48l16-10" stroke="#555" stroke-width="3" fill="none"/><path d="M130 30l22 10-9 14z" fill="#F4C542"/>'),
+G('#EFE0CC','#8A5A3B','<ellipse cx="76" cy="86" rx="34" ry="4" fill="#E8D5BF"/><path d="M56 56h40l-4 28H60z" fill="#fff"/><path d="M96 62h8a8 8 0 010 16h-8" stroke="#fff" stroke-width="4" fill="none"/><rect x="58" y="56" width="36" height="6" fill="#5B3A29"/><path d="M68 48q-4-8 0-14M80 48q-4-8 0-14M92 48q-4-8 0-14" stroke="#aaa" stroke-width="2" fill="none"/>'),
+G('#BFE3F5','#5DAA68','<circle cx="130" cy="26" r="12" fill="#FFD966"/><path d="M0 84l40-44 36 44z" fill="#7C8FB8"/><path d="M50 84l40-34 40 34z" fill="#9AA9CC"/><rect x="24" y="80" width="6" height="22" fill="#7A5230"/><circle cx="27" cy="72" r="14" fill="#2F8F4E"/>'),
+G('#CDD3E8','#6B7196','<rect x="14" y="40" width="132" height="44" rx="10" fill="#fff"/><rect x="14" y="62" width="132" height="8" fill="#1E2A5E"/><rect x="26" y="48" width="22" height="14" fill="#9A90E8"/><rect x="58" y="48" width="22" height="14" fill="#9A90E8"/><rect x="90" y="48" width="22" height="14" fill="#9A90E8"/><circle cx="40" cy="88" r="6" fill="#333"/><circle cx="120" cy="88" r="6" fill="#333"/>'),
+G('#FCE3B8','#A9744F','<path d="M20 30h120l-8 20H28z" fill="#E85D4A"/><path d="M44 30l-4 20M68 30l-2 20M92 30v20M116 30l2 20" stroke="#fff" stroke-width="5"/><rect x="28" y="50" width="104" height="34" fill="#F3C98B"/><ellipse cx="64" cy="64" rx="20" ry="6" fill="#fff"/><path d="M50 64q14-20 28 0z" fill="#C8573A"/><circle cx="106" cy="62" r="12" fill="#fff"/><circle cx="106" cy="62" r="7" fill="#F0A33E"/>'),
+G('#E3E8F7','#C7B79A','<rect x="44" y="40" width="72" height="42" rx="4" fill="#1E2A5E"/><rect x="49" y="45" width="62" height="32" fill="#DAD5F8"/><rect x="56" y="52" width="24" height="3" fill="#9A90E8"/><rect x="56" y="60" width="38" height="3" fill="#9A90E8"/><path d="M30 82h100l-8 8H38z" fill="#9AA3C7"/><rect x="134" y="64" width="14" height="20" fill="#fff"/>'),
+G('#DCEFE5','#4F6D7A','<rect x="28" y="61" width="104" height="6" fill="#555"/><rect x="36" y="46" width="12" height="36" rx="3" fill="#E85D4A"/><rect x="48" y="52" width="8" height="24" rx="2" fill="#E85D4A"/><rect x="112" y="46" width="12" height="36" rx="3" fill="#E85D4A"/><rect x="104" y="52" width="8" height="24" rx="2" fill="#E85D4A"/>'),
+G('#F3E9DC','#C9A97E','<rect x="24" y="52" width="112" height="32" rx="10" fill="#7C86C9"/><rect x="16" y="62" width="20" height="26" rx="8" fill="#6A74B8"/><rect x="124" y="62" width="20" height="26" rx="8" fill="#6A74B8"/><rect x="40" y="56" width="32" height="16" rx="5" fill="#B9B2F0"/><rect x="104" y="14" width="34" height="26" fill="#BFE3F5" stroke="#fff" stroke-width="3"/><circle cx="30" cy="30" r="8" fill="#F4C542"/>'),
+G('#8C9BB5','#5D6B82','<circle cx="56" cy="34" r="16" fill="#E9EDF5"/><circle cx="78" cy="28" r="20" fill="#E9EDF5"/><circle cx="102" cy="36" r="15" fill="#E9EDF5"/><rect x="48" y="34" width="62" height="16" fill="#E9EDF5"/><path d="M52 60l-6 14M70 58l-6 14M88 60l-6 14M106 58l-6 14M60 78l-5 12M96 80l-5 12" stroke="#BFE3F5" stroke-width="3" stroke-linecap="round"/>'),
+G('#E8E4F8','','<rect x="56" y="12" width="48" height="96" rx="10" fill="#1E2A5E"/><rect x="61" y="22" width="38" height="76" rx="4" fill="#fff"/><circle cx="80" cy="34" r="6" fill="#9A90E8"/><rect x="68" y="46" width="24" height="4" fill="#DAD5F8"/><rect x="68" y="56" width="24" height="4" fill="#DAD5F8"/><rect x="68" y="66" width="16" height="4" fill="#DAD5F8"/><circle cx="118" cy="30" r="8" fill="#E85D4A"/>'),
+G('#FDE4EC','#C9B2BD','<path d="M34 50h44l4 40H30z" fill="#E85D4A"/><path d="M46 50v-8a10 10 0 0120 0v8" stroke="#8A2F25" stroke-width="3" fill="none"/><path d="M84 40h40l4 50H80z" fill="#9A90E8"/><path d="M96 40v-8a8 8 0 0116 0v8" stroke="#4B4290" stroke-width="3" fill="none"/>'),
+G('#E2F1E8','#BFA97E','<ellipse cx="50" cy="80" rx="20" ry="6" fill="#E0A800"/><rect x="30" y="68" width="40" height="12" fill="#F4C542"/><ellipse cx="50" cy="68" rx="20" ry="6" fill="#FFD966"/><rect x="30" y="56" width="40" height="12" fill="#F4C542"/><ellipse cx="50" cy="56" rx="20" ry="6" fill="#FFD966"/><ellipse cx="108" cy="62" rx="30" ry="22" fill="#F29BB4"/><circle cx="132" cy="56" r="8" fill="#F29BB4"/><rect x="92" y="78" width="6" height="12" fill="#E07A98"/><rect x="116" y="78" width="6" height="12" fill="#E07A98"/><rect x="98" y="46" width="16" height="3" fill="#8A2F55"/>'),
+G('#DDEBFA','#8DBF7A','<ellipse cx="80" cy="62" rx="30" ry="26" fill="#C98F55"/><ellipse cx="54" cy="52" rx="10" ry="20" fill="#8A5A33"/><ellipse cx="106" cy="52" rx="10" ry="20" fill="#8A5A33"/><circle cx="70" cy="58" r="4" fill="#222"/><circle cx="90" cy="58" r="4" fill="#222"/><ellipse cx="80" cy="72" rx="12" ry="9" fill="#F3D9B8"/><circle cx="80" cy="68" r="4" fill="#222"/>'),
+G('#EDEFF7','#BDA27E','<rect x="22" y="16" width="116" height="52" fill="#2F6B55" stroke="#8A6A45" stroke-width="4"/><path d="M34 32h50M34 44h72M34 56h36" stroke="#fff" stroke-width="3"/><rect x="26" y="74" width="44" height="8" fill="#8A6A45"/><rect x="90" y="74" width="44" height="8" fill="#8A6A45"/>'),
+G('#E6F4F8','#CFE0E6','<rect x="46" y="20" width="68" height="68" rx="12" fill="#fff"/><rect x="74" y="30" width="12" height="48" fill="#E85D4A"/><rect x="56" y="48" width="48" height="12" fill="#E85D4A"/>'),
+G('#FFE9D6','#D9B38C','<circle cx="40" cy="48" r="12" fill="#F2C9A0"/><path d="M22 92a18 24 0 0136 0z" fill="#E85D4A"/><circle cx="80" cy="42" r="12" fill="#E7B98A"/><path d="M62 92a18 24 0 0136 0z" fill="#9A90E8"/><circle cx="120" cy="48" r="12" fill="#C98F55"/><path d="M102 92a18 24 0 0136 0z" fill="#2F8F4E"/>'),
+G('#1E2A5E','#3B2F7A','<path d="M30 0l30 84H10z" fill="#9A90E8" opacity=".35"/><path d="M130 0l20 84h-50z" fill="#F4C542" opacity=".3"/><rect x="76" y="20" width="5" height="48" fill="#8A5A33"/><rect x="72" y="12" width="13" height="10" fill="#222"/><ellipse cx="78" cy="78" rx="22" ry="18" fill="#C98F55" stroke="#8A5A33" stroke-width="3"/><circle cx="78" cy="78" r="6" fill="#222"/><circle cx="110" cy="24" r="2" fill="#fff"/><circle cx="46" cy="30" r="2" fill="#fff"/>'),
+G('#BFE3F5','#9AA3B5','<ellipse cx="30" cy="24" rx="16" ry="6" fill="#fff"/><path d="M70 56L48 22h14l30 34z" fill="#DAD5F8"/><path d="M70 60l-22 26h14l30-26z" fill="#DAD5F8"/><ellipse cx="80" cy="56" rx="56" ry="10" fill="#fff"/><path d="M130 56l12-18-4 18z" fill="#1E2A5E"/><circle cx="100" cy="55" r="2.5" fill="#1E2A5E"/><circle cx="112" cy="55" r="2.5" fill="#1E2A5E"/>')
+].forEach((g,i)=>SC[i].g=g);
+const D=Math.floor(Date.now()/864e5),IV=[0,1,3,7,14];
+let LS=null,S={},act=new Set(),R={v:'home'},H=[],C={},F={q:[],n:0,f:0},Q={},cnt=0,ed=0,lib=0,lv=0,CK=null,j=null;
+try{j=JSON.parse(localStorage.getItem('sl1'));if(j){S=j.S;act=new Set(j.a)}}catch(e){}
+if(!j){[[1,3,0],[4,2,0],[7,4,1],[2,1,2],[5,0,2],[8,3,4]].forEach(([i,b,a])=>S[i]={t:D-a,b,d:b>2?D+3:D});for(let i=0;i<5;i++)act.add(D-i)}
+const save=()=>{try{localStorage.setItem('sl1',JSON.stringify({S,a:[...act]}))}catch(e){}};
+const ids=()=>Object.keys(S).map(Number),known=()=>ids().filter(i=>S[i].b>=3).length,due=()=>ids().filter(i=>S[i].d<=D);
+const streak=()=>{let n=0,d=act.has(D)?D:D-1;while(act.has(d)){n++;d--}return n};
+const LOGO='<svg viewBox="0 0 48 48" width="46" height="46" aria-hidden="true"><rect class="l1" x="12" y="3" width="29" height="34" rx="7" transform="rotate(12 26 20)"/><rect class="l2" x="4" y="12" width="35" height="29" rx="9"/><rect class="l2" x="13" y="8" width="13" height="7" rx="3"/><circle class="l3" cx="21.5" cy="27" r="8.5"/><circle class="l1" cx="21.5" cy="27" r="4.5"/></svg>';
+const bar=t=>'<div class="bar"><button class="ic" onclick="back()" aria-label="ย้อนกลับ">‹</button><h2>'+t+'</h2></div>';
+const head=t=>'<div class="bar"><h2>'+t+'</h2></div>';
+const mini=i=>'<div class="card mini" onclick="go(\'detail\','+i+')"><div><b>'+W[i].w+'</b><div class="mu">'+W[i].m+'</div></div><span class="badge">'+LT[W[i].l]+(S[i]?' จำ '+(S[i].b+1)+'/5':'')+'</span></div>';
+function wc(i,y){const w=W[i];return '<div class="card"><div class="row"><h2 class="wd">'+w.w+'</h2><button class="ic" onclick="speak('+i+')">🔊</button></div><div class="row" style="justify-content:flex-start"><span class="mu">'+w.p+'</span><span class="badge">'+w.t+'</span><span class="badge">'+LT[w.l]+'</span></div><p style="margin-top:6px"><b>'+w.m+'</b></p><p class="mu">คำใกล้เคียง: '+w.s+'</p>'+(y?'<p class="mu">ตรงกับภาพเพราะ: '+esc(y)+'</p>':'')+'<div class="ex">'+w.e+'<br><span class="mu">'+w.x+'</span></div><div class="grid2"><button class="btn ghost" onclick="go(\'detail\','+i+')">รายละเอียด</button><button class="btn '+(S[i]?'ghost':'')+'" onclick="sv('+i+')">'+(S[i]?'✓ บันทึกแล้ว':'บันทึกคำศัพท์')+'</button></div></div>'}
+const V={
+home(){const t=ids().length,k=known(),p=t?Math.round(k/t*100):0,td=ids().filter(i=>S[i].t==D);
+return '<div class="brand">'+LOGO+'<h1>SnapLex</h1></div><p class="tag">แค่ถ่าย...ก็ได้คำศัพท์ระดับสูง</p><button class="btn big" onclick="nav(\'cam\')">📷 ถ่ายรูปเพื่อเรียนรู้</button>'
++'<div class="card"><div class="row"><b>ความก้าวหน้าของฉัน</b><span class="mu">จำได้ '+k+' จาก '+t+' คำ</span></div><div class="pb"><i style="width:'+p+'%"></i></div><div class="row"><span class="mu">จำได้แล้ว '+p+'%</span><span class="mu">เรียนต่อเนื่อง '+streak()+' วัน 🔥</span></div></div>'
++'<h3>คำศัพท์ที่เรียนวันนี้ ('+td.length+')</h3>'+(td.length?td.map(mini).join(''):'<div class="card mu">วันนี้ยังไม่มีคำใหม่ ลองถ่ายรูปสิ่งรอบตัวดู</div>')
++'<button class="btn ghost" onclick="nav(\'review\')">🔁 ทบทวนคำศัพท์ ('+due().length+' คำรอทบทวน)</button>'},
+cam(){const s=C.sc!=null,ok=C.img||s;
+return head('ถ่ายรูปเพื่อเรียนรู้')+(C.err?'<div class="card" style="border-color:var(--no)">'+C.err+'</div>':'')+'<div class="prev">'+(C.img?'<img src="'+C.img+'" alt="รูปที่เลือก">':s?svg(C.sc):'<span class="mu">ยังไม่ได้เลือกรูป</span>')+'</div>'
++'<div class="grid2"><label class="btn" for="f1">📷 เปิดกล้อง</label><label class="btn ghost" for="f2">🖼 เลือกรูปจากเครื่อง</label></div><p class="mu" style="font-size:12px">ถ้ากล้องไม่เปิด ให้กด "เลือกรูปจากเครื่อง" แล้วเลือก "ถ่ายภาพ" บนมือถือ</p>'
++'<button class="chip" style="margin-top:8px" onclick="startLive()">🎥 ถ่ายในหน้านี้ (กล้องสด)</button><p class="mu">หรือลองรูปตัวอย่าง</p><div class="thumbs">'+SC.map((x,i)=>'<button class="th'+(C.sc==i?' on':'')+'" onclick="C={sc:'+i+'};render()">'+svg(i)+'<span>'+x.n+'</span></button>').join('')+'</div>'
++(C.img?'<textarea id="dsc" rows="2" placeholder="บอก AI สั้น ๆ ว่าในภาพมีอะไร เช่น กาแฟกับหนังสือบนโต๊ะ" oninput="C.dsc=this.value" style="margin-top:14px">'+esc(C.dsc||'')+'</textarea>':'')+(ok?'<button class="btn big" style="margin-top:18px" onclick="analyze()">✨ วิเคราะห์ภาพ</button>':'')},
+live(){return bar('ถ่ายภาพ')+'<div class="prev" style="height:auto;aspect-ratio:3/4"><video id="vid" autoplay playsinline muted style="width:100%;height:100%;object-fit:cover"></video></div><button class="btn big" onclick="snap()">⚪ ถ่ายภาพ</button>'},
+load(){return '<div class="ld"><div class="spin"></div><h2 id="lm">'+R.m+'</h2><p class="mu">AI กำลังหาคำศัพท์ที่เข้ากับภาพ</p></div>'},
+result(){const r=C.r;return bar('ผลการวิเคราะห์')+'<div class="card"><span style="font-size:28px">'+r.e+'</span> '+(r.ai==2?'จากคำอธิบายของคุณ: ':r.ai?'AI เห็นว่า: ':'ฉากที่เลือก: ')+'<b>'+esc(r.sc)+'</b>'+(r.o.length?'<div class="mu">สิ่งที่พบในภาพ: '+r.o.map(esc).join(', ')+'</div>':'')+'<div class="mu">แนะนำ '+r.w.length+' คำที่ตรงกับภาพ</div></div>'+r.w.map(i=>wc(i,r.why&&r.why[i])).join('')+'<button class="btn ghost" onclick="back()">ไม่ตรง? ลองรูปหรือฉากใหม่</button>'},
+detail(){const i=R.a,w=W[i],r=S[i];
+return bar('รายละเอียดคำศัพท์')+'<div class="card"><h1 class="wd">'+w.w+'</h1><div class="row"><span class="mu">'+w.p+' <span class="badge">'+w.t+'</span><span class="badge">'+LT[w.l]+'</span></span><button class="ic" onclick="speak('+i+')">🔊 ฟังเสียง</button></div><h2 style="margin-top:8px">'+w.m+'</h2><p class="mu">คำใกล้เคียง: '+w.s+'</p><div class="ex">'+w.e+'<br><span class="mu">'+w.x+'</span></div></div>'
++(r&&r.s?'<div class="card"><small class="mu">ประโยคของฉัน</small><p>'+esc(r.s)+'</p>'+(r.fb?'<p class="mu">AI ตรวจแล้ว ('+r.sc+'/5): '+esc(r.fb)+'</p>':'')+'</div>':'')
++(ed?'<div class="card"><textarea id="ta" rows="3" placeholder="แต่งประโยคด้วยคำว่า '+w.w+'">'+esc(C.mv||'')+'</textarea><button class="btn" onclick="mine('+i+')">ตรวจด้วย AI และบันทึก</button><p id="fb" class="mu"></p></div>':'')+CKH(i)
++'<div class="grid2"><button class="btn '+(r?'ghost':'')+'" onclick="sv('+i+')">'+(r?'✓ บันทึกแล้ว':'บันทึกคำศัพท์')+'</button><button class="btn ghost" onclick="ed=1;render(1)">✍ สร้างประโยคของฉัน</button></div>'},
+vocab(){const a=ids().filter(i=>!lv||W[i].l==lv),tb='<div class="chips" style="margin:0 0 8px"><button class="chip'+(lib?'':' on')+'" onclick="lib=0;render()">ของฉัน ('+ids().length+')</button><button class="chip'+(lib?' on':'')+'" onclick="lib=1;render()">คลังทั้งหมด ('+W.length+')</button></div><div class="chips" style="margin:0 0 6px">'+LT.map((t,x)=>'<button class="chip'+(lv==x?' on':'')+'" onclick="lv='+x+';render()">'+t+'</button>').join('')+'</div>';
+const grp=arr=>[1,2,3].filter(g=>!lv||lv==g).map(g=>{const q=arr.filter(i=>W[i].l==g);return q.length?'<h3>'+LT[g]+' ('+q.length+' คำ)</h3>'+q.map(mini).join(''):''}).join('');
+return head('คำศัพท์')+tb+(lib?grp([...W.keys()]):a.length?grp(a):'<div class="card">ยังไม่มีคำที่บันทึกในระดับนี้ ดูคลังทั้งหมด หรือถ่ายรูปเพื่อสะสมคำศัพท์<button class="btn" onclick="nav(\'cam\')">📷 ถ่ายรูป</button></div>')},
+review(){return head('ทบทวน')+'<div class="card"><h3 style="margin:0">🃏 Flashcard</h3><p class="mu">'+due().length+' คำถึงเวลาทบทวนแล้ว</p><button class="btn" onclick="startF()">เริ่มทบทวน</button></div><div class="card"><h3 style="margin:0">📝 Quiz</h3><p class="mu">เลือกคำตอบและเติมคำในประโยค 5 ข้อ</p><button class="btn" onclick="startQ()">ทำแบบทดสอบ</button></div><p class="mu">Spaced Repetition: จำได้ ระบบจะเว้นระยะนานขึ้น ตอบผิดหรือยังไม่แม่น คำนั้นจะกลับมาเร็วขึ้น</p>'},
+flash(){if(!F.q.length)return bar('Flashcard')+'<div class="card" style="text-align:center"><div style="font-size:48px">🎉</div><h2>ทบทวนครบแล้ว</h2><p class="mu">'+(F.n?'คำที่ยังไม่แม่นจะกลับมาให้ทบทวนบ่อยขึ้น':'ตอนนี้ยังไม่มีคำที่ถึงเวลาทบทวน')+'</p></div><button class="btn ghost" onclick="startF(1,1)">ทบทวนทุกคำอีกรอบ</button><button class="btn" onclick="nav(\'me\')">ดูพัฒนาการ</button>';
+const i=F.q[0],w=W[i];return bar('Flashcard')+'<p class="mu">เหลืออีก '+F.q.length+' คำ</p><div class="card fc" onclick="F.f=!F.f;render(1)">'+(F.f?'<span class="badge" style="justify-self:center">'+w.t+'</span><h2>'+w.m+'</h2><p class="mu">'+w.s+'</p><div class="ex">'+w.e+'</div>':'<h1 class="wd">'+w.w+'</h1><p class="mu">'+w.p+'</p><button class="ic" style="justify-self:center" onclick="event.stopPropagation();speak('+i+')">🔊</button><p class="mu">แตะเพื่อพลิกดูความหมาย</p>')+'</div><div class="grid2"><button class="btn ghost" onclick="rate(0)">ยังไม่แม่น</button><button class="btn" onclick="rate(1)">จำได้แล้ว</button></div>'},
+quiz(){if(!Q.l||!Q.l.length)return bar('Quiz')+'<div class="card">ต้องมีคำศัพท์ที่บันทึกไว้อย่างน้อย 1 คำ<button class="btn" onclick="nav(\'cam\')">📷 ถ่ายรูป</button></div>';
+if(Q.k>=Q.l.length)return bar('ผลคะแนน')+'<div class="card" style="text-align:center"><div class="big2" style="font-size:56px">'+Q.s+'/'+Q.l.length+'</div><p>'+(Q.s==Q.l.length?'เต็มทุกข้อ เยี่ยมมาก!':Q.s>=Q.l.length/2?'ทำได้ดี ทบทวนอีกนิดจะแม่นขึ้น':'ไม่เป็นไร คำที่พลาดจะกลับมาให้ทบทวนเร็วขึ้น')+'</p></div><button class="btn" onclick="startQ()">ทำอีกครั้ง</button><button class="btn ghost" onclick="nav(\'me\')">ดูพัฒนาการ</button>';
+const q=Q.l[Q.k],w=W[q.i],a=Q.p!=null;
+return bar('Quiz ข้อ '+(Q.k+1)+'/'+Q.l.length)+'<div class="card">'+(q.f?'เติมคำในประโยค<div class="ex">'+w.e.replace(new RegExp(w.w,'i'),'_____')+'</div><p class="mu">'+w.x+'</p>':'คำว่า <h1 class="wd">'+w.w+'</h1>แปลว่าอะไร')+'</div>'
++q.o.map(o=>'<button class="opt '+(a?(o==q.i?'ok':o==Q.p?'no':''):'')+'" '+(a?'disabled':'')+' onclick="ans('+o+')">'+(q.f?W[o].w:W[o].m)+'</button>').join('')
++(a?'<button class="btn" onclick="Q.k++;Q.p=null;render()">'+(Q.k+1<Q.l.length?'ข้อถัดไป':'ดูคะแนน')+'</button>':'')},
+me(){const t=ids().length,k=known(),ds=[6,5,4,3,2,1,0].map(a=>D-a),cs=ds.map(d=>ids().filter(i=>S[i].t==d).length),m=Math.max(1,...cs),th=['อา','จ','อ','พ','พฤ','ศ','ส'];
+const cat=[...new Set(SC.map(s=>s.c))].map(c=>[c,ids().filter(i=>W[i].c==c).length]).sort((a,b)=>b[1]-a[1]),cm=Math.max(1,cat[0][1]);
+const st=(l,v)=>'<div class="card" style="margin:0"><div class="mu">'+l+'</div><div class="big2">'+v+'</div></div>';
+return head('โปรไฟล์และสถิติ')+'<div class="card row" style="justify-content:flex-start"><div class="av">ส</div><div><b>ผู้เรียน SnapLex</b><div class="mu">เป้าหมาย: คำศัพท์ภาษาอังกฤษระดับสูง</div></div></div>'
++'<div class="grid2">'+st('คำทั้งหมด',t)+st('คำที่จำได้',k)+st('อัตราการจำ',(t?Math.round(k/t*100):0)+'%')+st('เรียนต่อเนื่อง',streak()+' วัน')+'</div>'
++'<div class="card"><b>พัฒนาการ 7 วันล่าสุด</b><div class="mu">คำใหม่ที่บันทึกต่อวัน</div><div class="ch">'+cs.map((c,x)=>'<div class="col">'+c+'<i style="height:'+c/m*80+'%"></i>'+th[new Date(ds[x]*864e5).getDay()]+'</div>').join('')+'</div></div>'
++'<div class="card"><b>หมวดที่เรียนบ่อย</b>'+cat.map(c=>'<div class="row" style="margin-top:10px"><span>'+c[0]+'</span><span class="mu">'+c[1]+' คำ</span></div><div class="pb" style="margin:4px 0"><i style="width:'+c[1]/cm*100+'%"></i></div>').join('')+'</div>'}
+};
+const NV=[['home','🏠','Home'],['vocab','📖','คำศัพท์'],['cam','📷','กล้อง'],['review','🔁','ทบทวน'],['me','👤','โปรไฟล์']],
+HL={home:'home',vocab:'vocab',detail:'vocab',cam:'cam',live:'cam',load:'cam',result:'cam',review:'review',flash:'review',quiz:'review',me:'me'};
+function render(k){const y=scrollY;if(R.v!='live')stopLive();$('app').innerHTML=V[R.v]();$('nav').innerHTML=NV.map(n=>'<button class="'+(HL[R.v]==n[0]?'on ':'')+(n[0]=='cam'?'cam':'')+'" onclick="nav(\''+n[0]+'\')"><span>'+n[1]+'</span>'+n[2]+'</button>').join('');scrollTo(0,k?y:0)}
+function go(v,a){H.push([R.v,R.a]);R={v,a};ed=0;CK=null;render()}
+function back(){const p=H.pop()||['home'];R={v:p[0],a:p[1]};ed=0;render()}
+function nav(v){H=[];ed=0;if(v=='cam')C={};R={v};render()}
+async function file(el){const f=el.files&&el.files[0];el.value='';if(!f)return;try{const b=await small(f),r=new FileReader();r.onload=()=>{C={img:r.result,blob:b};render()};r.onerror=()=>{C={err:'อ่านไฟล์ภาพไม่สำเร็จ ลองเลือกรูปอื่น'};render()};r.readAsDataURL(b)}catch(e){C={err:'เปิดรูปไม่สำเร็จ (รหัส: '+((e&&e.name)||'unknown')+')'};render()}}
+async function small(b){try{const bm=await createImageBitmap(b),k=Math.min(1,1024/Math.max(bm.width,bm.height)),c=document.createElement('canvas');c.width=Math.round(bm.width*k);c.height=Math.round(bm.height*k);c.getContext('2d').drawImage(bm,0,0,c.width,c.height);return await new Promise(r=>c.toBlob(x=>r(x||b),'image/jpeg',.8))}catch(e){return b}}
+const viaImg=u=>new Promise((res,rej)=>{const im=new Image();im.onload=()=>{const k=Math.min(1,1024/Math.max(im.naturalWidth,im.naturalHeight)),c=document.createElement('canvas');c.width=Math.round(im.naturalWidth*k);c.height=Math.round(im.naturalHeight*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);c.toBlob(x=>x?res(x):rej({code:'image_rejected'}),'image/jpeg',.8)};im.onerror=()=>rej({code:'image_rejected'});im.src=u});
+const E={nosample:'หน้านี้ยังเชื่อมต่อ AI ไม่ได้ (ต้องเปิดผ่านหน้า Claude และกดอนุญาต)',noimg:'มุมมองนี้ยังส่งรูปให้ AI ดูไม่ได้ พิมพ์บอกสั้น ๆ ว่าในภาพมีอะไร (ช่องด้านล่าง) แล้วกดวิเคราะห์อีกครั้ง',image_rejected:'AI อ่านไฟล์ภาพนี้ไม่ได้ (รองรับ JPEG, PNG, WebP, GIF) ลองรูปอื่น',not_granted:'ต้องอนุญาตให้ AI วิเคราะห์ภาพก่อน',rate_limited:'ใช้งานถี่เกินไป รอสักครู่แล้วลองใหม่',none:'ไม่พบคำในคลังที่ตรงกับภาพนี้ ลองถ่ายให้เห็นวัตถุหลักชัดขึ้น'};
+async function ai(){const sm=window.claude&&await claude.use('sample');if(!sm)throw{code:'nosample'};const lim=await sm.limits().catch(()=>null);const im=lim&&lim.images,txt=(C.dsc||'').trim();if(!im&&!txt)throw{code:'noimg'};let bl;if(im){bl=await small(C.blob);if(im.mediaTypes&&!im.mediaTypes.includes(bl.type))bl=await viaImg(C.img)}
+const q=txt.replace(/"/g,"'"),pre=im?'You look at a photo and choose advanced English vocabulary from a fixed library that fits what is truly visible.'+(q?' The viewer adds: "'+q+'".':''):'You cannot see the photo; the viewer describes it as: "'+q+'". Work only from this description and choose advanced English vocabulary from a fixed library that fits the scene described.';
+const lib=W.map((w,i)=>i+':'+w.w+' ('+w.m+')').join('; ');
+const d=await sm.json(pre+' Library (index:word): '+lib+'. Rules: pick 1-3 words whose meaning clearly matches objects, actions, mood or setting actually visible in the photo; prefer the most specific fit; never pick a word only to fill the count; if nothing fits, return an empty picks array. Reply ONLY JSON: {"scene":"short Thai description of the photo","emoji":"one emoji","objects":["2-5 English nouns seen"],"picks":[{"i":0,"why":"Thai reason, max 14 words, naming what in the photo matches"}]}',(im?{images:bl,modelTier:'quick'}:{modelTier:'quick'}));
+const p=(d.picks||[]).filter(x=>W[x.i]).slice(0,3);if(!p.length)throw{code:'none'};
+return{w:p.map(x=>x.i),why:Object.fromEntries(p.map(x=>[x.i,x.why])),sc:d.scene||'ภาพของคุณ',e:d.emoji||'📷',o:d.objects||[],ai:im?1:2}}
+async function analyze(){const m=['กำลังอ่านภาพ...','มองหาวัตถุและบรรยากาศ...','คัดคำศัพท์ที่ตรงกับภาพ...'];R={v:'load',m:m[0]};render();let n=0;const tk=setInterval(()=>{if(R.v=='load'&&$('lm'))$('lm').textContent=m[++n%3]},1600);
+try{if(C.sc!=null){await new Promise(r=>setTimeout(r,1500));const x=SC[C.sc];C.r={w:x.w,sc:x.n,e:x.e,o:[],ai:0}}else C.r=await ai()}
+catch(e){clearInterval(tk);if(R.v=='load'){R={v:'cam'};C.err=(E[e&&e.code]||'วิเคราะห์ภาพไม่สำเร็จ ลองใหม่อีกครั้ง')+' (รหัส: '+((e&&e.code)||'unknown')+') หรือเลือกฉากตัวอย่างด้านล่าง';console.error(e);render()}return}
+clearInterval(tk);if(R.v!='load')return;R={v:'cam'};go('result')}
+function sv(i){if(S[i])delete S[i];else{S[i]={t:D,b:0,d:D};act.add(D)}save();render(1)}
+function speak(i){try{const u=new SpeechSynthesisUtterance(W[i].w);u.lang='en-US';u.rate=.85;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
+const CKH=i=>CK&&CK.i==i?'<div class="card" style="border-color:var(--no)"><b>'+(CK.err?'ตรวจด้วย AI ไม่สำเร็จ':'ประโยคนี้ยังไม่ถูกต้อง')+'</b><p class="mu">'+esc(CK.d?CK.d.feedback:CK.err)+'</p>'+(CK.d?'<div class="ex">'+esc(CK.d.corrected)+'</div><button class="btn" onclick="fin(CK.i,CK.d.corrected,{score:5,feedback:\'ปรับจากประโยคเดิมของคุณแล้ว\'})">ใช้ประโยคที่แก้แล้วและบันทึก</button>':'')+'<button class="btn ghost" onclick="CK=null;ed=1;render(1)">แก้ประโยคเอง</button>'+(CK.err?'<button class="btn ghost" onclick="fin(CK.i,CK.v,{score:0,feedback:\'\'})">บันทึกโดยไม่ตรวจ</button>':'')+'</div>':'';
+function fin(i,v,d){if(!S[i])S[i]={t:D,b:0,d:D};S[i].s=v;S[i].sc=d.score||0;S[i].fb=d.feedback||'';act.add(D);save();ed=0;CK=null;C.mv='';render(1)}
+async function mine(i){const v=$('ta').value.trim();if(!v)return;C.mv=v;if(!v.toLowerCase().includes(W[i].w.slice(0,-1))){$('fb').textContent='ประโยคต้องมีคำว่า '+W[i].w;return}
+$('fb').textContent='AI กำลังตรวจประโยค...';
+try{const sm=window.claude&&await claude.use('sample');if(!sm)throw{code:'nosample'};
+const d=await sm.json('You are an English teacher checking a sentence written by a Thai learner who must use the word "'+W[i].w+'" ('+W[i].m+'). Sentence: "'+v.replace(/"/g,"'")+'". Judge grammar, spelling, natural wording, and whether the target word is used correctly in meaning. Reply ONLY JSON: {"ok":true,"corrected":"fully corrected sentence keeping the learner idea and using the target word","feedback":"Thai explanation, max 35 words: say what is wrong, or praise if correct","score":4}  (ok is false when there is any real error; score 1-5)',{modelTier:'quick',cache:false});
+if(d.ok===true)fin(i,v,d);else{CK={i,v,d};render(1)}}
+catch(e){const m={nosample:'หน้านี้ยังเชื่อมต่อ AI ไม่ได้',not_granted:'ต้องอนุญาตให้ AI ทำงานก่อน',rate_limited:'ใช้งานถี่เกินไป รอสักครู่'};CK={i,v,err:(m[e&&e.code]||'ตรวจไม่สำเร็จ')+' (รหัส: '+((e&&e.code)||'unknown')+')'};render(1)}}
+function startF(all,same){F={q:(all?ids():due()).sort((a,b)=>S[a].b-S[b].b),f:0};F.n=F.q.length;if(same){render()}else go('flash')}
+function rate(ok){const i=F.q.shift(),r=S[i];if(ok){r.b=Math.min(4,r.b+1);r.d=D+IV[r.b]}else{r.b=0;r.d=D;F.q.push(i)}F.f=0;act.add(D);save();render()}
+function startQ(){const a=shuf(ids()).slice(0,5);Q={l:a.map((i,k)=>({i,f:k%2,o:shuf(shuf([...W.keys()].filter(x=>x!=i)).slice(0,3).concat(i))})),k:0,s:0,p:null};R.v=='quiz'?render():go('quiz')}
+function ans(o){if(Q.p!=null)return;Q.p=o;const q=Q.l[Q.k];if(o==q.i)Q.s++;else{S[q.i].b=0;S[q.i].d=D}act.add(D);save();render(1)}
+function stopLive(){if(LS){LS.getTracks().forEach(t=>t.stop());LS=null}}
+async function startLive(){try{const pp=document.permissionsPolicy||document.featurePolicy;if(pp&&pp.allowsFeature&&!pp.allowsFeature('camera'))throw{name:'Policy'};if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)throw{name:'Unsupported'};LS=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});go('live');const v=$('vid');v.srcObject=LS;v.play().catch(()=>{})}catch(e){stopLive();const n=e&&e.name;C.err=(n=='Policy'||n=='NotAllowedError'||n=='SecurityError'?'หน้านี้ถูกจำกัดไม่ให้ใช้กล้องสด (ข้อจำกัดของแอปหรือเบราว์เซอร์ที่เปิดอยู่)':n=='NotFoundError'?'ไม่พบกล้องในอุปกรณ์นี้':'เปิดกล้องสดไม่ได้')+' (รหัส: '+(n||'unknown')+') วิธีที่ใช้ได้แน่นอน: เปิดแอปกล้องของมือถือถ่ายภาพ แล้วกลับมากด “เลือกรูปจากเครื่อง”';render()}}
+function snap(){const v=$('vid');if(!v||!v.videoWidth)return;const c=document.createElement('canvas');c.width=v.videoWidth;c.height=v.videoHeight;c.getContext('2d').drawImage(v,0,0);c.toBlob(async b=>{const sm=await small(b),r=new FileReader();r.onload=()=>{C={img:r.result,blob:sm};H.pop();R={v:'cam'};render()};r.readAsDataURL(sm)},'image/jpeg',.85)}
+render();
+</script>
+</body>
+</html>
